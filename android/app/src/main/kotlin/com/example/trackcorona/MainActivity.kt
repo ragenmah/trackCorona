@@ -1,0 +1,6 @@
+package com.example.trackcorona
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}

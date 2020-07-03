@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "153876454898",
+    "firebase_url": "https://trackcorona-69626.firebaseio.com",
+    "project_id": "trackcorona-69626",
+    "storage_bucket": "trackcorona-69626.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153876454898:android:ed2a7669954a5363ae1f6b",
+        "android_client_info": {
+          "package_name": "com.example.trackcorona"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153876454898-272b8tti3m0j61qktcgeoh3gdt2bvtjf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuzDH2guod5AoMK2t5CHBYkN2sfMbXnkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153876454898-272b8tti3m0j61qktcgeoh3gdt2bvtjf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
