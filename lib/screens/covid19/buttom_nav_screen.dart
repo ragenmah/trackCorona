@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trackcorona/screens/coronanews/news_screen.dart';
 import 'package:trackcorona/screens/covid19/homepage.dart';
 
 import 'package:trackcorona/screens/covid19/stats_screen.dart';
+import 'package:trackcorona/screens/faqs/faqs_screen.dart';
 import 'package:trackcorona/screens/hospitals/hospital_list_screen.dart';
+import 'package:trackcorona/screens/myths/myths_screen.dart';
 import 'package:trackcorona/screens/nepalicorona/corona_home_screen.dart';
 import 'package:trackcorona/screens/podcasts/podcasts_screen.dart';
 import 'package:trackcorona/viewmodels/corona/corona_list_view_model.dart';
 import 'package:trackcorona/viewmodels/country_list_view_model.dart';
+import 'package:trackcorona/viewmodels/faqs/faqs_list_view_model.dart';
 import 'package:trackcorona/viewmodels/hospital/hospital_list_view_model.dart';
 import 'package:trackcorona/utils/palette.dart';
+import 'package:trackcorona/viewmodels/myths/myths_list_view_model.dart';
+import 'package:trackcorona/viewmodels/news/news_list_view_model.dart';
 import 'package:trackcorona/viewmodels/podcasts/podcasts_list_view_model.dart';
 import '../country_screen.dart';
 import 'call_official_screen.dart';
@@ -33,6 +39,10 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
     CallOfficialsScreen(),
     HospitalList(),
     PodcastsScreen(),
+    FAQsScreen(),
+    // Scaffold(),
+    MythScreen(),
+    NewsScreen()
     // CoronaHomePage()
   ];
   // int widget.currentIndex
@@ -54,6 +64,9 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           ChangeNotifierProvider(create: (_) => HospitalListViewModel()),
           ChangeNotifierProvider(create: (_) => CoronaListViewModel()),
           ChangeNotifierProvider(create: (_) => PodcastsListViewModel()),
+          ChangeNotifierProvider(create: (_) => NewsListViewModel()),
+          ChangeNotifierProvider(create: (_) => FAQSListViewModel()),
+          ChangeNotifierProvider(create: (_) => MythsListViewModel()),
         ],
         // child: CountryMap(),
         // child: HomePage(),

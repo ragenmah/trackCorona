@@ -12,12 +12,12 @@ class CoronaHomeScreen extends StatefulWidget {
 
 class _CoronaHomeScreenState extends State<CoronaHomeScreen> {
   // List homeData = CoronaHomeScreenData;
-
+  String screenName = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(titleName: ""),
       body: CustomScrollView(
         // padding: EdgeInsets.all(8),
         slivers: <Widget>[
@@ -74,6 +74,28 @@ class _CoronaHomeScreenState extends State<CoronaHomeScreen> {
     );
   }
 
+  void _navigateToScreen(BuildContext context, String screenName) {
+    Navigator.push(context, MaterialPageRoute(builder: (_) {
+      switch (screenName) {
+        case "Podcasts":
+          return BottomNavScreen(currentIndex: 7);
+          break;
+        case "FAQs":
+          return BottomNavScreen(currentIndex: 8);
+          break;
+        case "Myths":
+          return BottomNavScreen(currentIndex: 9);
+          break;
+        case "News":
+          return BottomNavScreen(currentIndex: 10);
+          break;
+
+        default:
+      }
+      return BottomNavScreen(currentIndex: 7);
+    }));
+  }
+
   Widget _homeBodyContent(BuildContext context) {
     // var screensize = MediaQuery.of(context).size;
 
@@ -93,11 +115,12 @@ class _CoronaHomeScreenState extends State<CoronaHomeScreen> {
         children: coronaHomeScreenData
             .map((item) => GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                BottomNavScreen(currentIndex: 7)));
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) =>
+                    //             BottomNavScreen(currentIndex: 8)));
+                    _navigateToScreen(context, item.values.first);
                   },
                   child: Card(
                     color: Colors.transparent,
@@ -114,29 +137,6 @@ class _CoronaHomeScreenState extends State<CoronaHomeScreen> {
                               image: AssetImage(item.keys.first),
                               fit: BoxFit.fill),
                         ),
-                        // child: Container(
-                        //   color: Colors.black12.withOpacity(0.4),
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   margin: EdgeInsets.all(20.0),
-                        //   child: Text(item.values.first,
-                        //       style:
-                        //           TextStyle(fontSize: 28, color: Colors.white)),
-                        // ),
-
-                        // child: Transform.translate(
-                        //   offset: Offset(50, -50),
-                        //   child: Container(
-                        //     margin:
-                        //         EdgeInsets.symmetric(horizontal: 65, vertical: 63),
-                        //     decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(10),
-                        //         color: Colors.white),
-                        //     child: Icon(
-                        //       Icons.bookmark_border,
-                        //       size: 15,
-                        //     ),
-                        //   ),
-                        // ),
                       ),
                       footer: Container(
                         color: Colors.transparent.withOpacity(0.4),

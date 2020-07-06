@@ -138,7 +138,9 @@ class _PodcastsScreenState extends State<PodcastsScreen> {
             ),
           ),
         ),
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(
+          titleName: "PodCast",
+        ),
         body: _buildList(listViewModel),
       ),
     );

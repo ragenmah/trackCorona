@@ -12,7 +12,7 @@ class CallOfficialsScreen extends StatelessWidget {
     // final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(titleName: "Official Number"),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         // shrinkWrap: true,

@@ -88,7 +88,9 @@ class _StatsScreenState extends State<StatsScreen> {
         Provider.of<CoronaListViewModel>(context, listen: true);
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+        titleName: "Corona Stats",
+      ),
       body: _buildScreen(listViewModel),
     );
   }

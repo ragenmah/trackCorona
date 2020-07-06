@@ -18,7 +18,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+        titleName: " ",
+      ),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,

@@ -16,6 +16,13 @@ class Constants {
   static const String PODCASTS_API_URL =
       "https://nepalcorona.info/api/v1/podcasts";
 
+  static const String FAQS_API_URL = "https://nepalcorona.info/api/v1/faqs";
+
+  static const String MYTHS_API_URL = "https://nepalcorona.info/api/v1/myths";
+  // static const String NEWS_API_URL = "https://nepalcorona.info/api/v1/news";
+  static const String NEWS_API_URL =
+      "https://nepalcorona.info/api/v1/news?limit=20";
+
   static const Map<String, String> EnglishToNepali = {
     "NewConfirmed": "Naya Sankramit",
     "TotalConfirmed": "Naya Sankramit Sankhya",

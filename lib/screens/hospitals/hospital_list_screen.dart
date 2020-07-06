@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trackcorona/screens/covid19/buttom_nav_screen.dart';
 import 'package:trackcorona/utils/palette.dart';
 import 'package:trackcorona/utils/styles.dart';
 import 'package:trackcorona/viewmodels/hospital/hospital_list_view_model.dart';
@@ -48,7 +47,7 @@ class _HospitalListState extends State<HospitalList> {
         Provider.of<HospitalListViewModel>(context, listen: true);
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(titleName: "Hospital list"),
       body: _buildList(listViewModel),
     );
   }
@@ -71,6 +70,7 @@ class _HospitalListState extends State<HospitalList> {
                       'assets/corona_images/hospital.png',
                       width: 120.0,
                       height: 120.0,
+                      fit: BoxFit.fill,
                     )
                   : Image.network(hospitals[index].imageUrl),
               title: Text(

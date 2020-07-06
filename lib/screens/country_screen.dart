@@ -53,7 +53,9 @@ class _CountryScreenState extends State<CountryScreen> {
         Provider.of<CountryListViewModel>(context, listen: true);
     return Scaffold(
       backgroundColor: Palette.primaryColor,
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+        titleName: "Country List",
+      ),
       body: _buildList(listViewModel),
     );
   }
