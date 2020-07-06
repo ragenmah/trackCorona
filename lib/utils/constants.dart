@@ -52,11 +52,26 @@ class Constants {
 }
 
 final prevention = [
-  {'assets/corona_images/preventions/Prevent 1_0.png': 'Wear a facemask'},
-  {'assets/corona_images/preventions/Prevent 2.png': 'Avoid close contact'},
-  {'assets/corona_images/preventions/Prevent 3.png': 'Clean your hands often'},
-  {'assets/corona_images/preventions/Prevent 4_0.png': 'Cover nose  and mouth'},
-  {'assets/corona_images/preventions/Prevent 5.png': 'Visit  Doctors'},
+  {
+    'assets/corona_images/preventions/Prevent 1_0.png':
+        '1. Avoid close contact with anyone with a cold or flu-like symptoms, and if you have a fever or are coughing yourself please keep a distance from others or make sure to use a mask. '
+  },
+  {
+    'assets/corona_images/preventions/Prevent 2.png':
+        '2. Avoid crowds and recommend others to the same. Instead of shaking hands, do a namaste instead.'
+  },
+  {
+    'assets/corona_images/preventions/Prevent 3.png':
+        '3. Clean hands frequently and thoroughly with soap and water, or alcohol-based hand sanitizer'
+  },
+  {
+    'assets/corona_images/preventions/Prevent 4_0.png':
+        '4. Cover nose and mouth when coughing or sneezing with tissue or a flexed elbow. Once you have used a tissue, please make sure to dispose of it properly in a covered waste bin, and remember to wash your hands thoroughly for a minimum of 20 seconds with soap and water or using an alcohol-based hand sanitizer.'
+  },
+  {
+    'assets/corona_images/preventions/Prevent 5.png':
+        '5. If you have returned from overseas, please make sure to stay home for 14 days, maintaining a distance from family members as well. If you see any of the symptoms described above, please contact a health facility immediately.'
+  },
 ];
 final symptoms = [
   {

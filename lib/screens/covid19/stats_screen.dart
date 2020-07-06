@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
@@ -8,17 +7,11 @@ import 'package:trackcorona/utils/palette.dart';
 import 'package:trackcorona/utils/styles.dart';
 import 'package:trackcorona/viewmodels/corona/corona_list_view_model.dart';
 import 'package:trackcorona/viewmodels/corona/corona_view_model.dart';
-import 'package:trackcorona/widgets/covid19/covid_bar_chart.dart';
-// import 'package:trackcorona/widgets/covid19/covid_bar_chart.dart';
 import 'package:trackcorona/widgets/covid19/custom_appbar.dart';
 import 'package:trackcorona/widgets/covid19/stats_grid.dart';
-import 'package:trackcorona/utils/constants.dart';
-// import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:smart_select/smart_select.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class StatsScreen extends StatefulWidget {
   @override
@@ -26,18 +19,21 @@ class StatsScreen extends StatefulWidget {
 }
 
 class _StatsScreenState extends State<StatsScreen> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  String value = 'flutter';
+  String countryNameFor = 'Nepal';
+  String value = 'Nepal';
+  int countryIndex = 4;
+  String showTable = "true";
   List<SmartSelectOption<String>> options = [
-    SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
-    SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
-    SmartSelectOption<String>(value: 'rea', title: 'React Native'),
+    // SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
+    // SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
+    // SmartSelectOption<String>(value: 'rea', title: 'React Native'),
   ];
   @override
   void initState() {
     super.initState();
     Provider.of<CoronaListViewModel>(context, listen: false).allCoronaDetails();
+    countryNameFor = 'Nepal';
+    showTable = "false";
   }
 
   Widget _buildScreen(CoronaListViewModel clvm) {
@@ -51,25 +47,31 @@ class _StatsScreenState extends State<StatsScreen> {
             physics: ClampingScrollPhysics(),
             slivers: <Widget>[
               _buildHeader(),
-
-              _buildRegionTabBar(),
-              _buildFlagWithInfo(clvm.coronaDetails),
+              _buildRegionTabBar(clvm.coronaDetails),
+              if (showTable == "false")
+                _buildFlagWithInfo(clvm.coronaDetails),
               // _buildStatsTabBar(),
-              SliverPadding(
-                padding: const EdgeInsets.all(20.0),
-                // padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                sliver: SliverToBoxAdapter(
-                  child: StatsGrid(),
+              if (showTable == "false")
+                SliverPadding(
+                  padding: const EdgeInsets.all(20.0),
+                  // padding: cotruedgeInsets.symmetric(horizontal: 10.0),
+                  sliver: SliverToBoxAdapter(
+                    child: StatsGrid(
+                        coronaList: clvm.coronaDetails,
+                        countryName: countryNameFor),
+                  ),
                 ),
-              ),
               // SliverPadding(
               //   padding: const EdgeInsets.only(top: 20.0),
               //   sliver: SliverToBoxAdapter(
               //     child: CovidBarChart(covidCases: covidUSADailyNewCases),
               //   ),
               // ),
-              _showInMap(clvm.coronaDetails),
-              _viewInTable(clvm.coronaDetails)
+              if (showTable == "false")
+                _showInMap(clvm.coronaDetails),
+
+              if (showTable == "true")
+                _viewInTable(clvm.coronaDetails)
             ]);
       case LoadingStatus.empty:
         return Center(
@@ -111,7 +113,42 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
-  SliverToBoxAdapter _buildRegionTabBar() {
+  int getCountryIndex(String countryName, List<CoronaViewModel> corona) {
+    corona.asMap().forEach((i, value) {
+      // print(
+      //     'index=$i, value=${coronaListViewModel[i].countryName}, death=${coronaListViewModel[i].criticalCases}');
+      if (corona[i].countryName == countryName)
+        setState(() {
+          countryNameFor = countryName;
+          countryIndex = i;
+          return;
+        });
+    });
+    return 3;
+  }
+
+  addCountryInList(List<CoronaViewModel> corona) {
+    corona.asMap().forEach((i, value) {
+      // print(
+      //     'index=$i, value=${corona[i].countryName}, death=${corona[i].criticalCases}');
+      // if (corona[i].countryName == this.widget.countryName)
+      // setState(() {
+      //   index = i;
+      //   return;
+      // });
+      // setState(() {
+      if (corona[i].countryName != "" || corona[i].countryName != "World")
+        options.add(SmartSelectOption<String>(
+            value: corona[i].countryName, title: corona[i].countryName));
+      // );
+      // return;
+      // });
+    });
+  }
+
+  SliverToBoxAdapter _buildRegionTabBar(List<CoronaViewModel> corona) {
+    getCountryIndex(countryNameFor, corona);
+    addCountryInList(corona);
     return SliverToBoxAdapter(
       child: DefaultTabController(
         length: 3,
@@ -146,20 +183,34 @@ class _StatsScreenState extends State<StatsScreen> {
               ),
             ],
             onTap: (index) {
+              if (index == 0) {
+                setState(() {
+                  countryNameFor = 'Nepal';
+                  showTable = "false";
+                  getCountryIndex(countryNameFor, corona);
+                });
+              }
               if (index == 1) {
+                setState(() {
+                  showTable = "false";
+                });
                 showModalBottomSheet(
                   context: context,
                   builder: (BuildContext bc) {
                     return SmartSelect<String>.single(
                       title: 'Select Country',
-                      value: value,
+                      // value: value,
+
+                      value: countryNameFor,
                       options: options,
                       modalType: SmartSelectModalType.fullPage,
-                      onChange: (val) => setState(() => value = val),
+                      onChange: (val) =>
+                          setState(() => getCountryIndex(val, corona)),
                       choiceType: SmartSelectChoiceType.chips,
                       selected: true,
                       leading: Image.network(
-                        "https://disease.sh/assets/img/flags/us.png",
+                        // "https://disease.sh/assets/img/flags/us.png",
+                        corona[countryIndex].countryInfo.values.toList()[5],
                         width: 20,
                         height: 20,
                         // fit: BoxFit.cover,
@@ -169,6 +220,11 @@ class _StatsScreenState extends State<StatsScreen> {
                   },
                 );
               }
+              if (index == 2) {
+                setState(() {
+                  showTable = "true";
+                });
+              }
             },
           ),
         ),
@@ -176,7 +232,7 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
-  SliverToBoxAdapter _buildFlagWithInfo(List<CoronaViewModel> hospitals) {
+  SliverToBoxAdapter _buildFlagWithInfo(List<CoronaViewModel> corona) {
     return SliverToBoxAdapter(
       child: Card(
         color: Colors.white10.withOpacity(0.2),
@@ -186,13 +242,22 @@ class _StatsScreenState extends State<StatsScreen> {
           child: Stack(
             alignment: Alignment.bottomLeft,
             children: <Widget>[
+              // corona[countryIndex].countryName != "Nepal"
+              //     ?
               Image.network(
-                "https://disease.sh/assets/img/flags/np.png",
+                corona[countryIndex].countryInfo.values.toList()[5],
                 width: 350,
                 height: 250,
                 // fit: BoxFit.cover,
                 fit: BoxFit.contain,
               ),
+              // : Image.network(
+              //     "https://disease.sh/assets/img/flags/np.png",
+              //     width: 350,
+              //     height: 250,
+              //     // fit: BoxFit.cover,
+              //     fit: BoxFit.contain,
+              //   ),
               Container(
                 color: Colors.purpleAccent.withOpacity(0.4),
                 padding: const EdgeInsets.all(8.0),
@@ -200,9 +265,9 @@ class _StatsScreenState extends State<StatsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Text("Nepal",
+                    Text(corona[countryIndex].countryName,
                         style: TextStyle(fontSize: 28, color: Colors.white)),
-                    Text("Continent",
+                    Text(corona[countryIndex].continent,
                         style: TextStyle(fontSize: 22, color: Colors.white)),
                   ],
                 ),
@@ -237,7 +302,8 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
-  SliverPadding _showInMap(List<CoronaViewModel> hospitals) {
+  SliverPadding _showInMap(List<CoronaViewModel> corona) {
+    Completer<GoogleMapController> _controller = Completer();
     return SliverPadding(
       padding: EdgeInsets.all(10.0),
       sliver: SliverToBoxAdapter(
@@ -247,7 +313,21 @@ class _StatsScreenState extends State<StatsScreen> {
           child: GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
-              target: LatLng(28, 84),
+              // target: LatLng(28, 84),
+              target: LatLng(
+                  // corona[countryIndex].countryInfo.values.toList()[3],
+                  // corona[countryIndex].countryInfo.values.toList()[4],
+                  double.tryParse(corona[countryIndex]
+                      .countryInfo
+                      .values
+                      .toList()[3]
+                      .toString()),
+                  double.tryParse(corona[countryIndex]
+                      .countryInfo
+                      .values
+                      .toList()[4]
+                      .toString())),
+
               zoom: 6,
             ),
             onMapCreated: (GoogleMapController controller) {

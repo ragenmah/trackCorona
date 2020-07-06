@@ -1,8 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:trackcorona/viewmodels/corona/corona_view_model.dart';
 
-class StatsGrid extends StatelessWidget {
+class StatsGrid extends StatefulWidget {
+  // final CoronaViewModel corona;
+  final String countryName;
+  final List<CoronaViewModel> coronaList;
+
+  StatsGrid({this.coronaList, this.countryName});
+
+  @override
+  _StatsGridState createState() => _StatsGridState();
+}
+
+class _StatsGridState extends State<StatsGrid> {
+  List<CoronaViewModel> coronaListViewModel;
+  int index;
+  @override
+  void initState() {
+    super.initState();
+    coronaListViewModel = this.widget.coronaList;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // coronaListViewModel = this
+    //     .coronaList
+    //     .where((coronaData) => coronaData.contains( countryName))
+    //     .map((coronaData) => Text(coronaData)).toList();
+    // coronaList.forEach((e) {
+    //   if (e == "Nepal") print("HELLO" + e.toString());
+    // });
+    coronaListViewModel.asMap().forEach((i, value) {
+      // print(
+      //     'index=$i, value=${coronaListViewModel[i].countryName}, death=${coronaListViewModel[i].criticalCases}');
+      if (coronaListViewModel[i].countryName == this.widget.countryName)
+        setState(() {
+          index = i;
+          return;
+        });
+    });
+    // for (var i = 0; i < coronaListViewModel.length; i++)
+    //   print('index=$i, value=${coronaListViewModel[i].countryName}');
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.25,
       child: Column(
@@ -10,25 +49,51 @@ class StatsGrid extends StatelessWidget {
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('Total Cases', '1.81 M', Colors.orange),
-                _buildStatCard('Total Deaths', '105 K', Colors.red),
+                _buildStatCard(
+                    'Total Cases',
+                    // coronaListViewModel.toString(),
+                    // this.corona.totalCases.toString(),
+                    //  coronaList.where((w) => w=="Nepal")
+                    // coronaList.where((w) => w == "Nepal").join(" "),
+                    //  " coronaList.where((item) => item.contains("Nepal")).toString()",
+                    this.widget.coronaList[index].totalCases.toString(),
+                    Colors.orange),
+                _buildStatCard(
+                    'Total Deaths',
+                    this.widget.coronaList[index].totalDeaths.toString(),
+                    Colors.red),
               ],
             ),
           ),
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('New Cases', '1.81 M', Colors.orange),
-                _buildStatCard('New Deaths', '105 K', Colors.red),
+                _buildStatCard(
+                    'New Cases',
+                    this.widget.coronaList[index].newCases.toString(),
+                    Colors.orange),
+                _buildStatCard(
+                    'New Deaths',
+                    this.widget.coronaList[index].newDeaths.toString(),
+                    Colors.red),
               ],
             ),
           ),
           Flexible(
             child: Row(
               children: <Widget>[
-                _buildStatCard('Recovered', '391 K', Colors.green),
-                _buildStatCard('Active', '1.31 M', Colors.lightBlue),
-                _buildStatCard('Critical', 'N/A', Colors.purple),
+                _buildStatCard(
+                    'Recovered',
+                    this.widget.coronaList[index].totalRecovered.toString(),
+                    Colors.green),
+                _buildStatCard(
+                    'Active',
+                    this.widget.coronaList[index].activeCases.toString(),
+                    Colors.lightBlue),
+                _buildStatCard(
+                    'Critical',
+                    this.widget.coronaList[index].criticalCases.toString(),
+                    Colors.purple),
               ],
             ),
           ),

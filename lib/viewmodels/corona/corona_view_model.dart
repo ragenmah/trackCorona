@@ -40,4 +40,8 @@ class CoronaViewModel {
   String get continent {
     return _corona.continent;
   }
+
+  Map<String, dynamic> get countryInfo {
+    return _corona.countryInfo;
+  }
 }

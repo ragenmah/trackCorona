@@ -73,7 +73,11 @@ class _MythScreenState extends State<MythScreen> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 elevation: 10,
-                child: Image.network(myths[index].imageUrl)),
+                child: Column(
+                  children: <Widget>[
+                    Image.network(myths[index].imageUrl),
+                  ],
+                )),
           ),
           itemCount: myths.length,
         );

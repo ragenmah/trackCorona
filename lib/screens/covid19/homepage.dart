@@ -213,48 +213,48 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 20.0),
-            SizedBox(
-              height: 300,
+            Container(
+              height: 580,
               child: ListView.builder(
                 shrinkWrap: false,
                 scrollDirection: Axis.vertical,
-                itemCount: 1,
+                itemCount: prevention.length,
                 padding: const EdgeInsets.all(10.0),
                 itemBuilder: (context, index) => Container(
-                  color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(1.0),
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: prevention
-                        .map(
-                          (e) => ListTile(
-                            title: Text(
-                              e.values.first,
-                              style: const TextStyle(
-                                // color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                  // color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
+                  //     .withOpacity(1.0),
+                  padding: EdgeInsets.all(20.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    elevation: 20,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Image.asset(
+                          prevention[index].keys.first, width: 100,
+                          height: 100,
 
-                            leading: Image.asset(
-                              e.keys.first, width: 120,
-                              height: 200,
-                              // fit: BoxFit.cover,
-                              fit: BoxFit.fill,
-                            ),
-                            // subtitle: Text(e.values.first),
-                            // leading: CircleAvatar(
-                            //   backgroundColor: Colors.green,
-                            //   child: Text(e.keys.first[0],
-                            //       style: TextStyle(
-                            //         color: Colors.white,
-                            //         fontSize: 20.0,
-                            //       )),
-                            // ),
+                          // fit: BoxFit.cover,
+                          fit: BoxFit.contain,
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Text(
+                          prevention[index].values.first,
+                          style: const TextStyle(
+                            // color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w500,
                           ),
-                        )
-                        .toList(),
+                          textAlign: TextAlign.left,
+                          textDirection: TextDirection.ltr,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

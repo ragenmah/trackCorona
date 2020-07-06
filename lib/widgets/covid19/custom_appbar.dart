@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:trackcorona/utils/palette.dart';
 
@@ -8,7 +10,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Palette.primaryColor,
+      backgroundColor:
+          Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+      //  Palette.primaryColor,
       elevation: 0.0,
       leading: IconButton(
         icon: const Icon(Icons.menu),

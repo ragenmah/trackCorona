@@ -36,7 +36,7 @@ class CallOfficialsScreen extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       Card(
-                        color: Colors.lightBlueAccent,
+                        color: Colors.transparent,
                         child: Text(
                           "For more information on COVID-19 from the Ministry of Health and Population:  ",
                           style: TextStyle(
@@ -46,7 +46,7 @@ class CallOfficialsScreen extends StatelessWidget {
                         ),
                       ),
                       Card(
-                        color: Colors.blueAccent,
+                        color: Colors.teal,
                         child: Column(
                           children: <Widget>[
                             Text(
@@ -85,6 +85,7 @@ class CallOfficialsScreen extends StatelessWidget {
                         child: ListView.builder(
                           // shrinkWrap: true,
                           // scrollDirection: Axis.horizontal,
+
                           itemCount: 1,
                           itemBuilder: (context, index) => Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,6 +105,7 @@ class CallOfficialsScreen extends StatelessWidget {
                                             fontSize: 20.0,
                                           )),
                                     ),
+                                    trailing: Icon(Icons.call),
                                   ),
                                 )
                                 .toList(),
