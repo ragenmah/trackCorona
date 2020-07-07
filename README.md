@@ -1,16 +1,18 @@
 # trackcorona
 
-A new Flutter project.
+A new Flutter project that is based on the information given by https://nepalcorona.info/ and https://restcountries.eu/. In this project , the news ,myths , FAQs and the PodCasts of the novel corona virus . Also there are list of hospitals in Nepal is included , you can directly call using this app.
 
-## Getting Started
+## Features:
 
-This project is a starting point for a Flutter application.
+1. About corona news, myths, FAQs and Podcasts.
+2. Google map is included.
+3. List of Countries and hospital directory.
+4. UptoDate with Corona Virus Update.
 
-A few resources to get you started if this is your first Flutter project:
+## Run Project
+ 1. Flutter Clean
+ 2. Flutter Run
+ 
+ ## Some Outputs
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
