@@ -23,7 +23,7 @@ A new Flutter project that is based on the information given by https://nepalcor
 ![4](https://user-images.githubusercontent.com/30024247/86788155-91f29900-c085-11ea-9615-a4be770369a7.PNG)
 ![5](https://user-images.githubusercontent.com/30024247/86788164-93bc5c80-c085-11ea-87b7-d5eef5620a20.PNG)
 ![6](https://user-images.githubusercontent.com/30024247/86788165-93bc5c80-c085-11ea-82c1-0de17d4fbcbd.PNG)
-![7](https://user-images.githubusercontent.com/300
+![7](https://user-images.githubusercontent.com/30024247/86788341-c8301880-c085-11ea-98cc-175c9c0c8ad0.PNG)
 ![8](https://user-images.githubusercontent.com/30024247/86788184-9a4ad400-c085-11ea-974d-b0559232ba00.PNG)
 ![9](https://user-images.githubusercontent.com/30024247/86788189-9ae36a80-c085-11ea-8ac6-de93d420ca94.PNG)
 24247/86788180-9919a700-c085-11ea-9416-0732cffeb657.PNG)
