@@ -223,12 +223,12 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) => Container(
                   // color: Color((Random().nextDouble() * 0xFFFFFF).toInt())
                   //     .withOpacity(1.0),
-                  padding: EdgeInsets.all(20.0),
+                  // padding: EdgeInsets.all(20.0),
                   child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    elevation: 20,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.circular(15.0),
+                    // ),
+                    // elevation: 20,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

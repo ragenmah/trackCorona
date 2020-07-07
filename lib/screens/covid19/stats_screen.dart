@@ -23,17 +23,25 @@ class _StatsScreenState extends State<StatsScreen> {
   String value = 'Nepal';
   int countryIndex = 4;
   String showTable = "true";
-  List<SmartSelectOption<String>> options = [
-    // SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
-    // SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
-    // SmartSelectOption<String>(value: 'rea', title: 'React Native'),
-  ];
+  bool sort;
+  // List<SmartSelectOption<String>> options = [
+  //   // SmartSelectOption<String>(value: 'ion', title: 'Ionic'),
+  //   // SmartSelectOption<String>(value: 'flu', title: 'Flutter'),
+  //   // SmartSelectOption<String>(value: 'rea', title: 'React Native'),
+  // ];
+  Completer<GoogleMapController> _controller = Completer();
   @override
   void initState() {
     super.initState();
+
     Provider.of<CoronaListViewModel>(context, listen: false).allCoronaDetails();
     countryNameFor = 'Nepal';
     showTable = "false";
+    sort = false;
+    // final listViewModel =
+    //     Provider.of<CoronaListViewModel>(context, listen: true);
+    // // CoronaListViewModel clvm;
+    // addCountryInList(listViewModel);
   }
 
   Widget _buildScreen(CoronaListViewModel clvm) {
@@ -97,6 +105,18 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
+  Widget _bodyListView() {
+    return SliverPadding(
+      padding: EdgeInsets.all(20.0),
+      sliver: SliverToBoxAdapter(
+          child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[],
+        ),
+      )),
+    );
+  }
+
   SliverPadding _buildHeader() {
     return SliverPadding(
       padding: const EdgeInsets.all(20.0),
@@ -127,28 +147,31 @@ class _StatsScreenState extends State<StatsScreen> {
     return 3;
   }
 
-  addCountryInList(List<CoronaViewModel> corona) {
-    corona.asMap().forEach((i, value) {
-      // print(
-      //     'index=$i, value=${corona[i].countryName}, death=${corona[i].criticalCases}');
-      // if (corona[i].countryName == this.widget.countryName)
-      // setState(() {
-      //   index = i;
-      //   return;
-      // });
-      // setState(() {
-      if (corona[i].countryName != "" || corona[i].countryName != "World")
-        options.add(SmartSelectOption<String>(
-            value: corona[i].countryName, title: corona[i].countryName));
-      // );
-      // return;
-      // });
-    });
-  }
+  // addCountryInList(List<CoronaViewModel> corona
+  // addCountryInList(CoronaListViewModel clvm) {
+  //   clvm.coronaDetails.asMap().forEach((i, value) {
+  //     // print(
+  //     //     'index=$i, value=${corona[i].countryName}, death=${corona[i].criticalCases}');
+  //     // if (corona[i].countryName == this.widget.countryName)
+  //     // setState(() {
+  //     //   index = i;
+  //     //   return;
+  //     // });
+  //     // setState(() {
+  //     if (clvm.coronaDetails[i].countryName != "" ||
+  //         clvm.coronaDetails[i].countryName != "World")
+  //       options.add(SmartSelectOption<String>(
+  //           value: clvm.coronaDetails[i].countryName,
+  //           title: clvm.coronaDetails[i].countryName));
+  //     // );
+  //     // return;
+  //     // });
+  //   });
+  // }
 
   SliverToBoxAdapter _buildRegionTabBar(List<CoronaViewModel> corona) {
     getCountryIndex(countryNameFor, corona);
-    addCountryInList(corona);
+    // addCountryInList(corona);
     return SliverToBoxAdapter(
       child: DefaultTabController(
         length: 3,
@@ -202,10 +225,12 @@ class _StatsScreenState extends State<StatsScreen> {
                       // value: value,
 
                       value: countryNameFor,
-                      options: options,
+                      options: Provider.of<CoronaListViewModel>(context,
+                              listen: false)
+                          .options,
                       modalType: SmartSelectModalType.fullPage,
-                      onChange: (val) =>
-                          setState(() => getCountryIndex(val, corona)),
+                      onChange: (val) => setState(
+                          () => getCountryIndex(val.toString(), corona)),
                       choiceType: SmartSelectChoiceType.chips,
                       selected: true,
                       leading: Image.network(
@@ -303,7 +328,7 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   SliverPadding _showInMap(List<CoronaViewModel> corona) {
-    Completer<GoogleMapController> _controller = Completer();
+    // getCountryIndex(countryNameFor, corona);
     return SliverPadding(
       padding: EdgeInsets.all(10.0),
       sliver: SliverToBoxAdapter(
@@ -317,7 +342,8 @@ class _StatsScreenState extends State<StatsScreen> {
               target: LatLng(
                   // corona[countryIndex].countryInfo.values.toList()[3],
                   // corona[countryIndex].countryInfo.values.toList()[4],
-                  double.tryParse(corona[countryIndex]
+
+                  double.parse(corona[countryIndex]
                       .countryInfo
                       .values
                       .toList()[3]
@@ -339,39 +365,207 @@ class _StatsScreenState extends State<StatsScreen> {
     );
   }
 
+  onSortColum(
+      int columnIndex, bool ascending, List<CoronaViewModel> coronalist) {
+    if (columnIndex == 0) {
+      if (ascending) {
+        coronalist.sort((a, b) => a.countryName.compareTo(b.countryName));
+      } else {
+        coronalist.sort((a, b) => b.countryName.compareTo(a.countryName));
+      }
+    } else if (columnIndex == 1) {
+      if (ascending) {
+        coronalist.sort((a, b) => a.totalCases.compareTo(b.totalCases));
+      } else {
+        coronalist.sort((a, b) => b.totalCases.compareTo(a.totalCases));
+      }
+    } else if (columnIndex == 2) {
+      if (ascending) {
+        coronalist.sort((a, b) => a.newCases.compareTo(b.newCases));
+      } else {
+        coronalist.sort((a, b) => b.newCases.compareTo(a.newCases));
+      }
+    }
+  }
+
+  int ColIndex = 0;
   SliverPadding _viewInTable(List<CoronaViewModel> coronalist) {
     return SliverPadding(
       padding: const EdgeInsets.all(10.0),
       sliver: SliverToBoxAdapter(
-        child: DataTable(
-          columns: const <DataColumn>[
-            DataColumn(
-              label: Text(
-                'country',
-                style: TextStyle(fontStyle: FontStyle.italic),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            horizontalMargin: 10.0,
+            columnSpacing: 10.0,
+            // headingRowHeight: 120,
+            // dataRowHeight: 120,
+            // sortAscending: sort,
+
+            sortColumnIndex: ColIndex,
+            columns: const <DataColumn>[
+              DataColumn(
+                label: Text(
+                  'country',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.deepOrangeAccent),
+                ),
+                // onSort: (columnIndex, ascending) {
+                //   setState(() {
+                //     sort = !sort;
+                //     // ColIndex = columnIndex;
+                //   });
+                //   onSortColum(columnIndex, ascending, coronalist);
+                // },
+
+                // }
               ),
-            ),
-            DataColumn(
-              label: Text(
-                'Total Cases',
-                style: TextStyle(fontStyle: FontStyle.italic),
+              DataColumn(
+                label: Text(
+                  'Total Cases',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.indigoAccent),
+                ),
               ),
-            ),
-            DataColumn(
-              label: Text(
-                'New Cases',
-                style: TextStyle(fontStyle: FontStyle.italic),
+              DataColumn(
+                label: Text(
+                  'New Cases',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.blueAccent),
+                ),
               ),
-            ),
-          ],
-          rows: List.generate(
-            coronalist.length,
-            (index) => DataRow(
-              cells: <DataCell>[
-                DataCell(Text(coronalist[index].countryName)),
-                DataCell(Text(coronalist[index].totalCases.toString())),
-                DataCell(Text(coronalist[index].newCases.toString())),
-              ],
+              DataColumn(
+                label: Text(
+                  'Total Deaths',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.redAccent),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'New Deaths',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.red),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Active Cases',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.greenAccent),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Total Recovered',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.greenAccent),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Critical Cases',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.yellow),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Continent',
+                  style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontSize: 20,
+                      color: Colors.limeAccent),
+                ),
+              ),
+            ],
+            rows: List.generate(
+              coronalist.length,
+              (index) => DataRow(
+                cells: <DataCell>[
+                  DataCell(Text(
+                    coronalist[index].countryName,
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(Text(
+                    coronalist[index].totalCases.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(Text(
+                    coronalist[index].newCases.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(Text(
+                    coronalist[index].totalDeaths.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(Text(
+                    coronalist[index].newDeaths.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(Text(
+                    coronalist[index].activeCases.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(Text(
+                    coronalist[index].totalRecovered.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                  DataCell(
+                      Text(
+                        coronalist[index].criticalCases.toString(),
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white),
+                      ),
+                      placeholder: true),
+                  DataCell(Text(
+                    coronalist[index].continent.toString(),
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
+                  )),
+                ],
+              ),
             ),
           ),
         ),

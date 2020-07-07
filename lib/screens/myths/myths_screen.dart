@@ -75,7 +75,10 @@ class _MythScreenState extends State<MythScreen> {
                 elevation: 10,
                 child: Column(
                   children: <Widget>[
-                    Image.network(myths[index].imageUrl),
+                    if (!projectSnap.hasData)
+                      Image.network(myths[index].imageUrl)
+                    else
+                      CircularProgressIndicator(),
                   ],
                 )),
           ),

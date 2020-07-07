@@ -44,6 +44,7 @@ dependencies:
   smart_select: ^3.0.3
   modal_bottom_sheet: ^0.1.6+1
   audioplayers: ^0.15.1
+  backdrop: ^0.4.1
 
 dev_dependencies:
   flutter_test:
